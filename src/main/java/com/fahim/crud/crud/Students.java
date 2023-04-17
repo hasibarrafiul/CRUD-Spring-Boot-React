@@ -1,13 +1,13 @@
-package com.fahim.crud.crud.student;
+package com.fahim.crud.crud;
 
-public class student {
+public class Students {
     private Long id;
     private String name;
     private Integer age;
     private String dob;
     private String email;
 
-    public student(Long id, String name, Integer age, String dob, String email) {
+    public Students(Long id, String name, Integer age, String dob, String email) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -15,14 +15,14 @@ public class student {
         this.email = email;
     }
 
-    public student(String name, Integer age, String dob, String email) {
+    public Students(String name, Integer age, String dob, String email) {
         this.name = name;
         this.age = age;
         this.dob = dob;
         this.email = email;
     }
 
-    public student() {
+    public Students() {
     }
 
     public Long getId() {
@@ -74,5 +74,4 @@ public class student {
                 ", email='"+email+'\''+
                 '}';
     }
-
 }
