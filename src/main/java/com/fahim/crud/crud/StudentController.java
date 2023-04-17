@@ -9,11 +9,15 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping(path="/api/v1/students")
 public class StudentController {
+	private final StudentService studentService;
+
+	public StudentController(StudentService studentService) {
+		this.studentService = studentService;
+	}
+	
     @GetMapping("/")
 	public ArrayList<Students> getStudents() {
-		ArrayList<Students> students= new ArrayList<Students>();
-		students.add(new Students(1L, "Fahim", 24, "1997-01-01", "fahim@gmail.com"));
-		students.add(new Students(2L, "Hasib", 22, "1997-01-01", "hasib@gmail.com"));
-		return students;
+		
+		return studentService.getStudents();
 	}
 }
