@@ -1,8 +1,9 @@
 package com.fahim.crud.crud;
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class StudentService {
     public ArrayList<Students> getStudents() {
 		ArrayList<Students> students= new ArrayList<Students>();
