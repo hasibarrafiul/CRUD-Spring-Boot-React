@@ -1,14 +1,22 @@
 package com.fahim.crud.crud;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentService {
-    public ArrayList<Students> getStudents() {
-		ArrayList<Students> students= new ArrayList<Students>();
-		students.add(new Students(1L, "Fahim", 24, "1997-01-01", "fahim@gmail.com"));
-		students.add(new Students(2L, "Hasib", 22, "1997-01-01", "hasib@gmail.com"));
-		return students;
+
+	private final StudentRepository studentRepository;
+	@Autowired
+	public StudentService(StudentRepository studentRepository) {
+		this.studentRepository = studentRepository;
+	}
+
+    public List<Students> getStudents() {
+		
+		return studentRepository.findAll();
 	}
 }
