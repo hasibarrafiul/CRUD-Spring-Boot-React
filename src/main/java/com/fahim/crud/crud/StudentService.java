@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StudentService {
@@ -38,5 +39,29 @@ public class StudentService {
 			throw new IllegalStateException("student with id " + studentId + " does not exists");
 		}
 		studentRepository.deleteById(studentId);
+	}
+
+	@Transactional
+	public void updateStudent(Long studentId,Students students ){
+		Students student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException("student with id " + studentId + " does not exists"));
+		if(students.getName() != null && students.getName().length() > 0 && !students.getName().equals(student.getName())) {
+			student.setName(students.getName());
+		}
+
+		if(students.getEmail() != null && students.getEmail().length() > 0 && !students.getEmail().equals(student.getEmail())) {
+			Optional<Students> studentOptional = studentRepository.findStudentByEmail(students.getEmail());
+			if(studentOptional.isPresent()) {
+				throw new IllegalStateException("email taken");
+			}
+			student.setEmail(students.getEmail());
+		}
+
+		if(students.getDob() != null && students.getDob().length() > 0 && !students.getDob().equals(student.getDob())) {
+			student.setDob(students.getDob());
+		}
+
+		if(students.getAge() != null && !students.getAge().equals(student.getAge())) {
+			student.setAge(students.getAge());
+		}
 	}
 }

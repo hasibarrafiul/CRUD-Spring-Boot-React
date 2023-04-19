@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
@@ -39,6 +40,12 @@ public class StudentController {
 	public void deleteStudent(@PathVariable("studentId") Long studentId) {
 		// TODO Auto-generated method stub
 		studentService.deleteStudent(studentId);
+	}
+
+	@PutMapping("{studentId}")
+	public void updateStudent(@PathVariable("studentId") Long studentId, @RequestBody Students students) {
+		// TODO Auto-generated method stub
+		studentService.updateStudent(studentId, students);
 	}
 
 }
