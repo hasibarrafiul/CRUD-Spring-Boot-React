@@ -1,0 +1,29 @@
+  .nav-link {
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+    padding: 10px 0px;
+    margin: 0px 10px;
+    display: inline-block;
+    position: relative;
+  }
+  
+  
+  .nav-link::before {
+    transition: 500ms;
+    height: 3px;
+    content: "";
+    position: absolute;
+    background-color: white;
+  }
+  
+  .nav-link-ltr::before {
+    width: 0%;
+    bottom: 0px;
+  }
+  
+  .nav-link-ltr:hover::before {
+    width: 100%;
+  }
+  
