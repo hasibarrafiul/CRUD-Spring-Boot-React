@@ -8,9 +8,6 @@ const ReadOnlyRow = ({
     user,
     handleEditClick,
     handleDeleteClick,
-    disable_user,
-    enable_user,
-    reset_pass,
 }) => {
     var clsName = "whitespace-nowrap py-3 text-sm text-gray-700";
     return (

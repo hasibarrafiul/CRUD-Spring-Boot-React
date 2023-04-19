@@ -277,14 +277,20 @@ const App = () => {
     const handleDeleteClick = (userId) => {
         const newUserList = [...userList];
         const index = userList.findIndex((user) => user.id === userId);
-        Axios.post(`${process.env.REACT_APP_API_URL}/admin/deleteuser/`, {
-            user_id: userId,
-        }).then((response) => {
-            if (response.data == "success") {
-                success("User deleted successfully");
+        // Axios.post(`${process.env.REACT_APP_API_URL}/admin/deleteuser/`, {
+        //     user_id: userId,
+        // }).then((response) => {
+        //     if (response.data == "success") {
+        //         success("User deleted successfully");
+        //     }
+        // });
+        Axios.delete(`http://localhost:8080/api/v1/students/${userId}`).then(
+            (response) => {
+                if (response.data == "success") {
+                    success("User deleted successfully");
+                }
             }
-        });
-
+        );
         newUserList.splice(index, 1);
         setUserList(newUserList);
     };
@@ -312,20 +318,6 @@ const App = () => {
     }
 
     // enable user
-    const enable_user = (userId) => {
-        Axios.post(`${process.env.REACT_APP_API_URL}/admin/enableuser/`, {
-            user_id: userId,
-        });
-
-        success("User enabled");
-    };
-    const disable_user = (userId) => {
-        Axios.post(`${process.env.REACT_APP_API_URL}/admin/disableuser/`, {
-            user_id: userId,
-        });
-
-        warning("User disabled");
-    };
 
     // logout
 
@@ -391,9 +383,6 @@ const App = () => {
                                             handleDeleteClick={
                                                 handleDeleteClick
                                             }
-                                            enable_user={enable_user}
-                                            disable_user={disable_user}
-                                            reset_pass={reset_pass}
                                         />
                                     )}
                                 </tr>
@@ -468,11 +457,11 @@ const App = () => {
 
                                             <div className="group relative w-72 md:w-80 lg:w-96">
                                                 <label className="block w-full pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">
-                                                    Username
+                                                    Email
                                                 </label>
                                                 <input
-                                                    type="text"
-                                                    name="username"
+                                                    type="email"
+                                                    name="email"
                                                     onChange={
                                                         handleAddFormChange
                                                     }
@@ -482,11 +471,11 @@ const App = () => {
                                             </div>
                                             <div className="group relative w-72 md:w-80 lg:w-96">
                                                 <label className="block w-full pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">
-                                                    Password
+                                                    Date of birth
                                                 </label>
                                                 <input
-                                                    type="password"
-                                                    name="password"
+                                                    type="text"
+                                                    name="dob"
                                                     onChange={
                                                         handleAddFormChange
                                                     }
@@ -496,40 +485,11 @@ const App = () => {
                                             </div>
                                             <div className="group relative w-72 md:w-80 lg:w-96">
                                                 <label className="block w-full pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">
-                                                    Position
-                                                </label>
-
-                                                <Select
-                                                    options={[
-                                                        {
-                                                            value: "admin",
-                                                        },
-                                                        {
-                                                            value: "operations",
-                                                        },
-                                                        {
-                                                            value: "accounts-manager",
-                                                        },
-                                                        {
-                                                            value: "accounts",
-                                                        },
-                                                    ]}
-                                                    name="position"
-                                                    addFormData={addFormData}
-                                                    setAddFormData={
-                                                        setAddFormData
-                                                    }
-                                                    isAddFromData={true}
-                                                />
-                                            </div>
-
-                                            <div className="group relative w-72 md:w-80 lg:w-96">
-                                                <label className="block w-full pb-1 text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">
-                                                    Department
+                                                    Age
                                                 </label>
                                                 <input
-                                                    type="text"
-                                                    name="department"
+                                                    type="number"
+                                                    name="age"
                                                     onChange={
                                                         handleAddFormChange
                                                     }
