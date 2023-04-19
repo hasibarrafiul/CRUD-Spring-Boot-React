@@ -24,35 +24,12 @@ const EditTableRow = ({
             <td>
                 <input
                     className="peer w-full rounded-md bg-gray-50  text-sm outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400"
-                    type="text"
+                    type="email"
                     required
-                    placeholder="Enter Username..."
-                    name="username"
-                    value={editFormData.username}
+                    placeholder="Enter email..."
+                    name="email"
+                    value={editFormData.email}
                     onChange={handleEditFormChange}
-                />
-            </td>
-            <td>
-                <Select
-                    options={[
-                        {
-                            value: "admin",
-                        },
-                        {
-                            value: "operations",
-                        },
-                        {
-                            value: "accounts-manager",
-                        },
-                        {
-                            value: "accounts",
-                        },
-                    ]}
-                    value={editFormData.position}
-                    name="position"
-                    editFormData={editFormData}
-                    setEditFormData={setEditFormData}
-                    isEditFormData={true}
                 />
             </td>
             <td>
@@ -60,9 +37,20 @@ const EditTableRow = ({
                     className="peer w-full rounded-md bg-gray-50  text-sm outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400"
                     type="text"
                     required
-                    placeholder="Enter Department..."
-                    name="department"
-                    value={editFormData.department}
+                    placeholder="Enter Date of birth..."
+                    name="dob"
+                    value={editFormData.dob}
+                    onChange={handleEditFormChange}
+                />
+            </td>
+            <td>
+                <input
+                    className="peer w-full rounded-md bg-gray-50  text-sm outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:ring-2 focus:ring-blue-400"
+                    type="number"
+                    required
+                    placeholder="Enter age..."
+                    name="age"
+                    value={editFormData.age}
                     onChange={handleEditFormChange}
                 />
             </td>

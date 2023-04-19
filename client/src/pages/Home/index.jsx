@@ -54,8 +54,8 @@ const TableHeader = [
 ];
 
 const App = () => {
-    const [userList, setUserList] = useState([]);
-    const [tableData, handleSorting] = useSortableTable(userList, TableHeader); // data, columns
+    const [studentList, setStudentList] = useState([]);
+    const [tableData, handleSorting] = useSortableTable(studentList, TableHeader); // data, columns
     const [cursorPos, setCursorPos] = useState(1);
     const [pageSize, setPageSize] = useState(20);
 
@@ -82,7 +82,7 @@ const App = () => {
         fetch(`http://localhost:8080/api/v1/students`)
             .then((res) => res.json())
             .then((data) => {
-                setUserList(data);
+                setStudentList(data);
             });
     }, []);
 
@@ -160,9 +160,9 @@ const App = () => {
             age: newContact.age,
         });
 
-        //userList의 초기값은 data.json 데이터
-        const newUserList = [...tableData, newContact];
-        setUserList(newUserList);
+        //studentList의 초기값은 data.json 데이터
+        const newstudentList = [...tableData, newContact];
+        setStudentList(newstudentList);
 
         // close modal
         closeModal();
@@ -173,27 +173,27 @@ const App = () => {
 
     //save modified data (App component)
     const handleEditFormSubmit = (event) => {
-        event.preventDefault(); // prevent submit
-
+        event.preventDefault();
+       
         const editedContact = {
-            id: editContactId, //initial value null
             name: editFormData.name,
-            username: editFormData.username,
-            position: editFormData.position,
-            department: editFormData.department,
+            email: editFormData.email,
+            dob: editFormData.dob,
+            age: editFormData.age,
         };
 
-        Axios.post(`${process.env.REACT_APP_API_URL}/admin/updateinfo/`, {
-            user_id: editedContact.id,
-            new_name: editedContact.name,
-            new_username: editedContact.username,
-            new_position: editedContact.position,
-            new_department: editedContact.department,
+        console.log("id"+editContactId);
+
+        Axios.put(`http://localhost:8080/api/v1/students/${editContactId}`, {
+            name: editedContact.name,
+            email: editedContact.email,
+            dob: editedContact.dob,
+            age: editedContact.age,
         });
 
         const index = tableData.findIndex((td) => td.id === editContactId);
         tableData[index] = editedContact;
-        setUserList(tableData);
+        setStudentList(tableData);
 
         setEditContactId(null);
         success("User updated successfully");
@@ -207,9 +207,9 @@ const App = () => {
         setEditContactId(user.id);
         const formValues = {
             name: user.name,
-            username: user.username,
-            position: user.position,
-            department: user.department,
+            email: user.email,
+            dob: user.dob,
+            age: user.age,
         };
         setEditFormData(formValues);
     };
@@ -221,8 +221,8 @@ const App = () => {
 
     // delete
     const handleDeleteClick = (userId) => {
-        const newUserList = [...userList];
-        const index = userList.findIndex((user) => user.id === userId);
+        const newstudentList = [...studentList];
+        const index = studentList.findIndex((user) => user.id === userId);
         // Axios.post(`${process.env.REACT_APP_API_URL}/admin/deleteuser/`, {
         //     user_id: userId,
         // }).then((response) => {
@@ -237,8 +237,8 @@ const App = () => {
                 }
             }
         );
-        newUserList.splice(index, 1);
-        setUserList(newUserList);
+        newstudentList.splice(index, 1);
+        setStudentList(newstudentList);
     };
 
     // modal for add user
