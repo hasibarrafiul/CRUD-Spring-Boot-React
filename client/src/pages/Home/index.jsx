@@ -90,29 +90,22 @@ const App = () => {
     //id is randomly generated with nanoid generator
     const [addFormData, setAddFormData] = useState({
         name: "",
-        username: "",
-        password: "",
-        position: "",
-        department: "",
+        email: "",
+        dob: "",
+        age: "",
     });
 
     //edit status
     const [editFormData, setEditFormData] = useState({
         name: "",
-        username: "",
-        position: "",
-        department: "",
+        email: "",
+        dob: "",
+        age: "",
     });
 
-    //edit status
-    const [resetPassFormData, setResetPassFormData] = useState({
-        password: "",
-        reset_password: "",
-    });
 
     //modified id status
     const [editContactId, setEditContactId] = useState(null);
-    const [resetPassUserId, setResetPassUserId] = useState(null);
 
     //changeHandler
     //Update state with input data
@@ -132,23 +125,6 @@ const App = () => {
         setAddFormData(newFormData);
     };
 
-    //changeHandler
-    //Update state with input data
-    const handleResetPassFormChange = (event) => {
-        event.preventDefault();
-
-        //pass, reset pass
-        const fieldName = event.target.getAttribute("name");
-        //각 input 입력값
-        const fieldValue = event.target.value;
-
-        const newFormData = { ...resetPassFormData };
-        newFormData[fieldName] = fieldValue;
-        //addFormData > event.target(input)
-        //fullName:"" > name="fullName", value=fullName input 입력값
-
-        setResetPassFormData(newFormData);
-    };
 
     //Update status with correction data
     const handleEditFormChange = (event) => {
@@ -171,19 +147,17 @@ const App = () => {
         //data.json으로 이루어진 기존 행에 새로 입력받은 데이터 행 덧붙이기
         const newContact = {
             name: addFormData.name, //handleAddFormChange로 받은 새 데이터
-            username: addFormData.username,
-            password: addFormData.password,
-            position: addFormData.position,
-            department: addFormData.department,
+            email: addFormData.email,
+            dob: addFormData.dob,
+            age: addFormData.age,
         };
 
         // api call
-        Axios.post(`${process.env.REACT_APP_API_URL}/user/register`, {
+        Axios.post(`http://localhost:8080/api/v1/students`, {
             name: newContact.name,
-            username: newContact.username,
-            password: sha256(newContact.password),
-            position: newContact.position,
-            department: newContact.department,
+            email: newContact.email,
+            dob: newContact.dob,
+            age: newContact.age,
         });
 
         //userList의 초기값은 data.json 데이터
@@ -195,34 +169,6 @@ const App = () => {
 
         // toast
         success("User added successfully");
-    };
-
-    //submit handler
-    // modal open for reset password
-    const reset_pass = (userId) => {
-        setResetPassUserId(userId);
-        openResPassModal();
-    };
-    //Clicking the Add button adds a new data row to the existing row
-    const handleResetPassFormSubmit = (event) => {
-        event.preventDefault();
-
-        const newPass = {
-            password: resetPassFormData.password,
-            reset_password: resetPassFormData.reset_password,
-        };
-
-        // api call
-        if (newPass.password === newPass.reset_password) {
-            Axios.post(`${process.env.REACT_APP_API_URL}/admin/resetpassword/`, {
-                user_id: resetPassUserId,
-                new_password: sha256(newPass.password),
-            });
-            closeResPassModal();
-            success("Password reset successfully");
-        } else {
-            warning("Password does not match");
-        }
     };
 
     //save modified data (App component)
@@ -306,22 +252,6 @@ const App = () => {
         setIsOpen(true);
     }
 
-    // modal for reset password
-    let [isResPassOpen, setIsResPassOpen] = useState(false);
-
-    function closeResPassModal() {
-        setIsResPassOpen(false);
-    }
-
-    function openResPassModal() {
-        setIsResPassOpen(true);
-    }
-
-    // enable user
-
-    // logout
-
-    //If save(submit) is pressed after editing is completed, submit > handleEditFormSubmit action
     return (
         <div className="m-2 mt-4">
             <div className="my-2 mx-auto flex justify-center">
@@ -512,90 +442,7 @@ const App = () => {
                 </Transition>
             </Suspense>
 
-            {/* Reset Pass modal */}
-            <Suspense fallback={<Loader />}>
-                <Transition appear show={isResPassOpen} as={Fragment}>
-                    <Dialog
-                        as="div"
-                        className="relative z-10"
-                        onClose={() => {}}
-                    >
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                        >
-                            <div className="fixed inset-0 bg-black bg-opacity-25" />
-                        </Transition.Child>
-
-                        <div className="fixed inset-0 overflow-y-auto">
-                            <div className="flex min-h-full items-center justify-center p-4 text-center">
-                                <Transition.Child
-                                    as={Fragment}
-                                    enter="ease-out duration-300"
-                                    enterFrom="opacity-0 scale-95"
-                                    enterTo="opacity-100 scale-100"
-                                    leave="ease-in duration-200"
-                                    leaveFrom="opacity-100 scale-100"
-                                    leaveTo="opacity-0 scale-95"
-                                >
-                                    <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                        <Dialog.Title
-                                            as="h3"
-                                            className="mb-4 text-left text-3xl font-medium text-gray-900"
-                                        >
-                                            Reset Password
-                                            <button
-                                                className="float-right"
-                                                onClick={closeResPassModal}
-                                            >
-                                                <MdClose className="inline text-red-600" />
-                                            </button>
-                                        </Dialog.Title>
-                                        <form
-                                            onSubmit={handleResetPassFormSubmit}
-                                            className="flex flex-col gap-4"
-                                        >
-                                            <input
-                                                className="w-full rounded-md text-sm"
-                                                type="password"
-                                                name="password"
-                                                required
-                                                placeholder="Enter an password..."
-                                                onChange={
-                                                    handleResetPassFormChange
-                                                }
-                                            />
-                                            <input
-                                                className="w-full rounded-md text-sm"
-                                                type="password"
-                                                name="reset_password"
-                                                required
-                                                placeholder="Enter an reset_password..."
-                                                onChange={
-                                                    handleResetPassFormChange
-                                                }
-                                            />
-
-                                            <button
-                                                type="submit"
-                                                className="inline-flex justify-center rounded-md border border-transparent bg-blue-300 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            >
-                                                Reset
-                                            </button>
-                                        </form>
-                                    </Dialog.Panel>
-                                </Transition.Child>
-                            </div>
-                        </div>
-                    </Dialog>
-                </Transition>
-            </Suspense>
-
+            
             {/* toast  */}
             <ToastContainer closeOnClick />
         </div>

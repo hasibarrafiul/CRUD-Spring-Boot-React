@@ -28,7 +28,6 @@ public class StudentController {
 	
     @GetMapping("")
 	public List<Students> getStudents() {
-		
 		return studentService.getStudents();
 	}
 
